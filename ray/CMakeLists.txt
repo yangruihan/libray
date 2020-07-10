@@ -4,7 +4,6 @@ set(PROJ_NAME ray)
 
 project(${PROJ_NAME})
 
-file(GLOB HEADERS_PLUS "./*.hpp")
 file(GLOB HEADERS "./*.h")
 
 source_group("Headers" FILES ${HEADERS_PLUS})
@@ -29,3 +28,6 @@ target_link_libraries(
     Lua
     SDL2
 )
+
+add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/scripts" "${ROOT_SOURCE_DIR}/bin/${ROOT_PROJ_NAME}/Debug/scripts")
