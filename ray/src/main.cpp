@@ -1,9 +1,21 @@
+#define SDL_MAIN_HANDLED
+
 #include <iostream>
 #include <SDL.h>
 
-#undef main
+// Lua
+extern "C"
+{
+    #include <lua.h>
+    #include <lualib.h>
+    #include <lauxlib.h>
+}
 
-int invoke_main()
+#ifdef LOVE_WINDOWS
+#include <windows.h>
+#endif // LOVE_WINDOWS
+
+int main(int argc, char** argv)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
@@ -37,9 +49,4 @@ int invoke_main()
     SDL_DestroyWindow(win);
     SDL_Quit();
     return 0;
-}
-
-int main(int argc, char* argv[])
-{
-    return invoke_main();
 }
