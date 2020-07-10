@@ -1,12 +1,19 @@
-set(PROJ_NAME ray)
+
+set(PROJ_NAME libray)
 
 project(${PROJ_NAME})
 
 file(GLOB SRC_FILES
-    "${PROJECT_SOURCE_DIR}/src/*.c")
+    "${PROJECT_SOURCE_DIR}/src/*.c"
+    "${PROJECT_SOURCE_DIR}/src/common/*.c"
+    "${PROJECT_SOURCE_DIR}/src/timer/*.c")
 
 file(GLOB HEADERS 
-    "${PROJECT_SOURCE_DIR}/src/*.h")
+    "${PROJECT_SOURCE_DIR}/src/*.h"
+    "${PROJECT_SOURCE_DIR}/src/common/*.h"
+    "${PROJECT_SOURCE_DIR}/src/timer/*.h")
+
+source_group("Headers" FILES ${HEADERS})
 
 # set output path
 if (CMAKE_BUILD_TYPE MATCHES "Debug")
@@ -17,7 +24,7 @@ endif(CMAKE_BUILD_TYPE MATCHES "Debug")
 
 include_directories(${ROOT_SOURCE_DIR}/libray/src)
 
-add_executable(
+add_library(
     ${PROJ_NAME}
     ${SRC_FILES}
     ${HEADERS}
@@ -27,11 +34,4 @@ target_link_libraries(
     ${PROJ_NAME}
     Lua
     SDL2
-    libray
 )
-
-add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E remove_directory "${ROOT_SOURCE_DIR}/bin/${ROOT_PROJ_NAME}/Debug/scripts")
-
-add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/scripts" "${ROOT_SOURCE_DIR}/bin/${ROOT_PROJ_NAME}/Debug/scripts")

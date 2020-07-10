@@ -4,7 +4,7 @@ set(ROOT_PROJ_NAME Ray)
 
 project(${ROOT_PROJ_NAME})
 
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
 option(DEBUG "Debug Version" on)
@@ -36,4 +36,5 @@ endif()
 
 add_subdirectory(libs/SDL2)
 add_subdirectory(libs/lua53)
+add_subdirectory(libray)
 add_subdirectory(ray)
