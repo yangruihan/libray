@@ -2,13 +2,8 @@
 
 #include <malloc.h>
 
-#include "common/config.h"
 #include "common/delay.h"
 #include "common/module.h"
-
-#if defined(LIBRAY_WINDOWS)
-#include <windows.h>
-#endif
 
 timer* ray_get_timer()
 {
@@ -26,7 +21,7 @@ timer* timer_create()
     timer* t = (timer*)malloc(sizeof(timer));
     t->base.module_type = ray_mt_timer;
     t->base.module_name = "timer";
-    
+
     t->fps = 0;
     t->average_delta = 0;
     t->fps_update_frequency = 1;
@@ -86,24 +81,18 @@ double timer_get_average_delta(timer* t)
     return t->average_delta;
 }
 
-#if defined(LIBRAY_WINDOWS)
-
-static LARGE_INTEGER get_time_absolute()
+static Uint64 get_time_absolute()
 {
-    LARGE_INTEGER t;
-    QueryPerformanceCounter(&t);
-    return t;
+    return SDL_GetPerformanceCounter();
 }
 
-static LARGE_INTEGER get_frequency()
+static Uint64 get_frequency()
 {
-    LARGE_INTEGER freq;
-    QueryPerformanceFrequency(&freq);
-    return freq;
+    return SDL_GetPerformanceFrequency();
 }
 
-static LARGE_INTEGER freq;
-static LARGE_INTEGER start;
+static Uint64 freq;
+static Uint64 start;
 static int time_init = 0;
 
 double timer_get_time()
@@ -115,12 +104,8 @@ double timer_get_time()
 
         time_init = 1;
     }
-    
-    const LARGE_INTEGER now = get_time_absolute();
 
-    LARGE_INTEGER rel;
-    rel.QuadPart = now.QuadPart - start.QuadPart;
-    return (double)rel.QuadPart / (double)freq.QuadPart;
+    const Uint64 now = get_time_absolute();
+    const Uint64 rel = now - start;
+    return (double)rel / (double)freq;
 }
-
-#endif

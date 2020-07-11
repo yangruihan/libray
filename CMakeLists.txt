@@ -33,8 +33,13 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
     endif()
 endif()
 
+# set variables
+set(SDL2_INCLUDE_DIR ${ROOT_SOURCE_DIR}/libs/SDL2/include)
+set(SDL2_LIBRARY SDL2)
+set(SDL2MAIN_LIBRARY SDL2main)
 
-add_subdirectory(libs/SDL2)
 add_subdirectory(libs/lua53)
+add_subdirectory(libs/SDL2)
+add_subdirectory(libs/sdl-gpu)
 add_subdirectory(libray)
 add_subdirectory(ray)

@@ -1,0 +1,3 @@
+[submodule "libs/sdl-gpu"]
+	path = libs/sdl-gpu
+	url = https://github.com/yangruihan/sdl-gpu.git

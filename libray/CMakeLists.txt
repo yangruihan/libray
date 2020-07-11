@@ -6,11 +6,13 @@ project(${PROJ_NAME})
 file(GLOB SRC_FILES
     "${PROJECT_SOURCE_DIR}/src/*.c"
     "${PROJECT_SOURCE_DIR}/src/common/*.c"
+    "${PROJECT_SOURCE_DIR}/src/graphics/*.c"
     "${PROJECT_SOURCE_DIR}/src/timer/*.c")
 
 file(GLOB HEADERS 
     "${PROJECT_SOURCE_DIR}/src/*.h"
     "${PROJECT_SOURCE_DIR}/src/common/*.h"
+    "${PROJECT_SOURCE_DIR}/src/graphics/*.h"
     "${PROJECT_SOURCE_DIR}/src/timer/*.h")
 
 source_group("Headers" FILES ${HEADERS})
