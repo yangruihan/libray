@@ -1,6 +1,6 @@
 #include "timer.h"
 
-#include <malloc.h>
+#include <stdlib.h>
 
 #include "common/delay.h"
 #include "common/module.h"

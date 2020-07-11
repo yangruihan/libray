@@ -3,7 +3,7 @@
 
 #include <SDL_timer.h>
 
-inline void ray_sleep(const unsigned int ms)
+void ray_sleep(const unsigned int ms)
 {
     SDL_Delay(ms);
 }
