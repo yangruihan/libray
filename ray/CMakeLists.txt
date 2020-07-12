@@ -17,6 +17,12 @@ endif(CMAKE_BUILD_TYPE MATCHES "Debug")
 
 include_directories(${ROOT_SOURCE_DIR}/libray/src)
 
+# Find OpenGL
+find_library(OpenGL OpenGL)
+if (NOT OpenGL)
+    message(FATAL_ERROR "OpenGL")
+endif()
+
 add_executable(
     ${PROJ_NAME}
     ${SRC_FILES}
@@ -25,9 +31,8 @@ add_executable(
 
 target_link_libraries(
     ${PROJ_NAME}
-    Lua
-    SDL2
     libray
+    ${OpenGL}
 )
 
 add_custom_command(TARGET ${PROJ_NAME} POST_BUILD

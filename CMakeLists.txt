@@ -16,6 +16,7 @@ endif(DEBUG)
 set(ROOT_SOURCE_DIR ${PROJECT_SOURCE_DIR})
 
 include_directories(${PROJECT_SOURCE_DIR}/libs/SDL2/include)
+include_directories(${PROJECT_SOURCE_DIR}/libs/sdl-gpu/include)
 include_directories(${PROJECT_SOURCE_DIR}/libs/lua53/src)
 
 # Bump up warning levels appropriately for clang, gcc & msvc

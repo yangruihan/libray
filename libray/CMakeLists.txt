@@ -36,4 +36,5 @@ target_link_libraries(
     ${PROJ_NAME}
     Lua
     SDL2
+    SDL_gpu
 )
