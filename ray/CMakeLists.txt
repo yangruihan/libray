@@ -17,23 +17,34 @@ endif(CMAKE_BUILD_TYPE MATCHES "Debug")
 
 include_directories(${ROOT_SOURCE_DIR}/libray/src)
 
-# Find OpenGL
-find_library(OpenGL OpenGL)
-if (NOT OpenGL)
-    message(FATAL_ERROR "OpenGL")
-endif()
-
 add_executable(
     ${PROJ_NAME}
     ${SRC_FILES}
     ${HEADERS}
 )
 
-target_link_libraries(
-    ${PROJ_NAME}
-    libray
-    ${OpenGL}
-)
+if (NOT WIN32)
+    # Find OpenGL
+    find_library(OpenGL OpenGL)
+    if (NOT OpenGL)
+        message(FATAL_ERROR "OpenGL")
+    endif()
+    
+    target_link_libraries(
+        ${PROJ_NAME}
+        libray
+        ${OpenGL}
+    )
+else(NOT WIN32)
+    # Find OpenGL
+    find_package(OpenGL REQUIRED)
+
+    target_link_libraries(
+        ${PROJ_NAME}
+        libray
+        opengl32
+    )
+endif(NOT WIN32)
 
 add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E remove_directory "${ROOT_SOURCE_DIR}/bin/${ROOT_PROJ_NAME}/Debug/scripts")
