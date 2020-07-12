@@ -24,10 +24,6 @@ static int init_lua()
     // load timer lib
     lua_open_ray_timer(L);
 
-    lua_getglobal(L, "require");
-    lua_pushstring(L, "scripts.ray.boot");
-    lua_call(L, 1, 1);
-
     return 0;
 }
 
@@ -38,11 +34,18 @@ static int init()
 
 static int main_loop()
 {
+    lua_getglobal(L, "require");
+    lua_pushstring(L, "scripts.ray.boot");
+    lua_call(L, 1, 1);
+
     lua_newthread(L);
     lua_pushvalue(L, -2);
     const int stack_pos = lua_gettop(L);
+
     while (lua_resume(L, NULL, 0) == LUA_YIELD)
         lua_pop(L, lua_gettop(L) - stack_pos);
+    
+    lua_pop(L, 2);
     return 0;
 }
 
