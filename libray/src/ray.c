@@ -1,5 +1,11 @@
 #include "ray.h"
 
+// SDL
+#include <SDL.h>
+
+// SDL GPU
+#include <SDL_gpu.h>
+
 // Lua
 #include <lua.h>
 #include <lualib.h>
@@ -7,7 +13,22 @@
 
 #include "timer/timer_wrap.h"
 
-static lua_State* L;
+static lua_State *L;
+static bool is_running = true;
+
+static int init_SDL()
+{
+    GPU_SetDebugLevel(GPU_DEBUG_LEVEL_MAX);
+
+    SDL_Init(SDL_INIT_EVERYTHING);
+
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG, SDL_TRUE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+    return 0;
+}
 
 static int init_lua()
 {
@@ -24,34 +45,47 @@ static int init_lua()
     // load timer lib
     lua_open_ray_timer(L);
 
+    // todo lua boot
+
     return 0;
 }
 
 static int init()
 {
-    return init_lua();
+    init_SDL();
+
+    init_lua();
+
+    return 0;
 }
 
 static int main_loop()
 {
-    lua_getglobal(L, "require");
-    lua_pushstring(L, "scripts.ray.boot");
-    lua_call(L, 1, 1);
+    GPU_Target *screen = GPU_Init(1280, 720, GPU_DEFAULT_INIT_FLAGS);
 
-    lua_newthread(L);
-    lua_pushvalue(L, -2);
-    const int stack_pos = lua_gettop(L);
+    // Main loop
+    SDL_Event event;
+    while (is_running)
+    {
+        // Handle events
+        while (SDL_PollEvent(&event))
+        {
+        }
 
-    while (lua_resume(L, NULL, 0) == LUA_YIELD)
-        lua_pop(L, lua_gettop(L) - stack_pos);
-    
-    lua_pop(L, 2);
+        GPU_Clear(screen);
+        GPU_Flip(screen);
+        SDL_Delay(1);
+    }
+
     return 0;
 }
 
 static int clear()
 {
     lua_close(L);
+
+    GPU_Quit();
+
     return 0;
 }
 
