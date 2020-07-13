@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 17)
 option(DEBUG "Debug Version" on)
 
 if(DEBUG)
-    add_definitions(-DDEBUG)
+    add_definitions(-DDEBUG)    
 endif(DEBUG)
 
 set(ROOT_SOURCE_DIR ${PROJECT_SOURCE_DIR})
