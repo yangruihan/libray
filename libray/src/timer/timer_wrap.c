@@ -42,11 +42,11 @@ DEFINE_LUA_FUNC(get_time)
 
 static const luaL_Reg functions[] =
 {
-    {"step", step},
+    // {"step", step},
     {"getDelta", get_delta},
     {"getFPS", get_fps},
     {"getAverageDelta", get_average_delta},
-    {"sleep", sleep},
+    // {"sleep", sleep},
     {"getTime", get_time},
     {NULL, NULL}
 };

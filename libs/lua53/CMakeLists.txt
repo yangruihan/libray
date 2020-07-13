@@ -9,11 +9,19 @@ file(GLOB HEADERS "${PROJECT_SOURCE_DIR}/src/*.h")
 source_group("Headers" FILES ${HEADERS})
 
 # set output path
-if (CMAKE_BUILD_TYPE MATCHES "Debug")
-    set(LIBRARY_OUTPUT_PATH "${ROOT_SOURCE_DIR}/bin/${ROOT_PROJ_NAME}")
-else(CMAKE_BUILD_TYPE MATCHES "Debug")
-    set(LIBRARY_OUTPUT_PATH "${ROOT_SOURCE_DIR}/bin/${ROOT_PROJ_NAME}")
-endif(CMAKE_BUILD_TYPE MATCHES "Debug")
+if (WIN32)
+    if (CMAKE_BUILD_TYPE MATCHES "Debug")
+        set(EXECUTABLE_OUTPUT_PATH "${ROOT_SOURCE_DIR}/bin/${ROOT_PROJ_NAME}")
+    else(CMAKE_BUILD_TYPE MATCHES "Debug")
+        set(EXECUTABLE_OUTPUT_PATH "${ROOT_SOURCE_DIR}/bin/${ROOT_PROJ_NAME}")
+    endif(CMAKE_BUILD_TYPE MATCHES "Debug")
+else (WIN32)
+    if (CMAKE_BUILD_TYPE MATCHES "Debug")
+        set(EXECUTABLE_OUTPUT_PATH "${ROOT_SOURCE_DIR}/bin/Debug/${ROOT_PROJ_NAME}")
+    else(CMAKE_BUILD_TYPE MATCHES "Debug")
+        set(EXECUTABLE_OUTPUT_PATH "${ROOT_SOURCE_DIR}/bin/Release/${ROOT_PROJ_NAME}")
+    endif(CMAKE_BUILD_TYPE MATCHES "Debug")
+endif (WIN32)
 
 add_library(
     ${PROJ_NAME}

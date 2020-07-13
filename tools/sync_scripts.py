@@ -13,5 +13,10 @@ def main():
         shutil.rmtree(p)
         shutil.copytree(prefix + '/ray/scripts', p)
 
+    p = prefix + '/scripts'
+    if os.path.exists(p):
+        shutil.rmtree(p)
+        shutil.copytree(prefix + '/ray/scripts', p)
+
 if __name__ == "__main__":
     main()
