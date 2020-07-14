@@ -27,28 +27,10 @@ add_executable(
     ${HEADERS}
 )
 
-if (NOT WIN32)
-    # Find OpenGL
-    find_library(OpenGL OpenGL)
-    if (NOT OpenGL)
-        message(FATAL_ERROR "OpenGL")
-    endif()
-    
-    target_link_libraries(
-        ${PROJ_NAME}
-        libray
-        ${OpenGL}
-    )
-else(NOT WIN32)
-    # Find OpenGL
-    find_package(OpenGL REQUIRED)
-
-    target_link_libraries(
-        ${PROJ_NAME}
-        libray
-        opengl32
-    )
-endif(NOT WIN32)
+target_link_libraries(
+    ${PROJ_NAME}
+    libray
+)
 
 if (CMAKE_BUILD_TYPE MATCHES "Debug")
     add_custom_command(TARGET ${PROJ_NAME} POST_BUILD

@@ -19,15 +19,54 @@ source_group("Headers" FILES ${HEADERS})
 
 include_directories(${ROOT_SOURCE_DIR}/libray/src)
 
-add_library(
-    ${PROJ_NAME}
-    ${SRC_FILES}
-    ${HEADERS}
-)
+if (WIN32)
+    #link_directories("${ROOT_SOURCE_DIR}/bin/${ROOT_PROJ_NAME}/Debug")
 
-target_link_libraries(
-    ${PROJ_NAME}
-    Lua
-    SDL2
-    SDL_gpu
-)
+    add_library(
+        ${PROJ_NAME}
+        SHARED
+        ${SRC_FILES}
+        ${HEADERS}
+    )
+
+    # Find OpenGL
+    find_package(OpenGL REQUIRED)
+
+    target_link_libraries(
+        ${PROJ_NAME}
+        Lua
+        SDL2
+        SDL_gpu
+        opengl32
+    )
+
+    if (CMAKE_BUILD_TYPE MATCHES "Debug")
+        add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/Debug/libray.dll" "${ROOT_SOURCE_DIR}/bin/${ROOT_PROJ_NAME}/Debug/libray.dll")
+    else (CMAKE_BUILD_TYPE MATCHES "Debug")
+        add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy "./build/Release/libray.dll" "${ROOT_SOURCE_DIR}/bin/${ROOT_PROJ_NAME}/Release/libray.dll")
+    endif (CMAKE_BUILD_TYPE MATCHES "Debug")
+
+else (WIN32)
+    add_library(
+        ${PROJ_NAME}
+        STATIC
+        ${SRC_FILES}
+        ${HEADERS}
+    )
+
+    # Find OpenGL
+    find_library(OpenGL OpenGL)
+    if (NOT OpenGL)
+        message(FATAL_ERROR "OpenGL")
+    endif()
+    
+    target_link_libraries(
+        ${PROJ_NAME}
+        Lua
+        SDL2
+        SDL_gpu
+        ${OpenGL}
+    )
+endif (WIN32)
