@@ -141,6 +141,7 @@
 /* Enable various input drivers */
 #define SDL_JOYSTICK_IOKIT  1
 #define SDL_JOYSTICK_HIDAPI  1
+#undef SDL_JOYSTICK_HIDAPI // TODO 该选项设置为1后，会报错，需要研究
 #define SDL_HAPTIC_IOKIT    1
 
 /* Enable the dummy sensor driver */
@@ -208,6 +209,8 @@
 #define SDL_VIDEO_RENDER_METAL    0
 #endif
 #endif
+
+#define SDL_VIDEO_RENDER_METAL    0 // TODO 该选项设置为1后会报错，需要研究
 
 /* Enable OpenGL support */
 #ifndef SDL_VIDEO_OPENGL
