@@ -9,6 +9,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 option(DEBUG "Debug Version" on)
 
+message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
+message(STATUS "Debug: ${DEBUG}")
+
 if(DEBUG)
     add_definitions(-DDEBUG)    
 endif(DEBUG)
