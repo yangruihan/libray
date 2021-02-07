@@ -1,13 +1,10 @@
 #ifndef LIBRAY_CONFIG_H_
 #define LIBRAY_CONFIG_H_
 
-// Platform
-#if defined(WIN32) || defined(_WIN32)
-    #define LIBRAY_WINDOWS 1
-#endif
+#include "platform.h"
 
 // DLL
-#ifdef LIBRAY_WINDOWS
+#ifdef LIBRAY_PLATFORM_WINDOWS
     #ifdef LIBRAY_DYNAMIC_LINK
         #ifdef LIBRAY_BUILD
             #define LIBRAY_API __declspec(dllexport)
