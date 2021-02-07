@@ -17,6 +17,7 @@
 #include "timer/timer_wrap.h"
 
 static lua_State *L;
+static GPU_Target* screen;
 static bool is_running = true;
 
 /**
@@ -56,12 +57,9 @@ static int init_SDL()
 {
     GPU_SetDebugLevel(GPU_DEBUG_LEVEL_MAX);
 
-    SDL_Init(SDL_INIT_EVERYTHING);
-
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    screen = GPU_Init(1280, 720, GPU_DEFAULT_INIT_FLAGS);
+    if (!screen)
+        return -1;
 
     return 0;
 }
@@ -103,9 +101,6 @@ static int init()
 
 static int main_loop()
 {
-    GPU_Target *screen = GPU_Init(1280, 720, GPU_DEFAULT_INIT_FLAGS);
-
-
     // call lua load
     RAY_LOG_INFO("Call ray_load");
     call_lua("ray_load");
@@ -114,6 +109,9 @@ static int main_loop()
 
     // main loop
     SDL_Event event;
+
+    SDL_Color color = {.r = 255, .g = 255, .b = 255, .a = 255};
+
     while (is_running)
     {
         // update timer
@@ -122,12 +120,23 @@ static int main_loop()
         // handle events
         while (SDL_PollEvent(&event))
         {
+            if(event.type == SDL_QUIT)
+                is_running = false;
+            else if(event.type == SDL_KEYDOWN)
+            {
+                if(event.key.keysym.sym == SDLK_ESCAPE)
+                    is_running = false;
+            }
         }
 
         // call lua update
         call_lua("ray_update");
 
-        GPU_Clear(screen);
+        GPU_ClearRGBA(screen, 255, 0, 255, 255);
+
+        GPU_Line(screen, 320, 200, 300, 240, color);
+        GPU_Line(screen, 300, 240, 340, 240, color);
+        GPU_Line(screen, 340, 240, 320, 200, color);
 
         // call lua draw
         call_lua("ray_draw");
