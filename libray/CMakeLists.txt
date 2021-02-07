@@ -19,6 +19,9 @@ source_group("Headers" FILES ${HEADERS})
 
 include_directories(${ROOT_SOURCE_DIR}/libray/src)
 
+add_definitions(-DLIBRAY_BUILD)
+add_definitions(-DLIBRAY_DYNAMIC_LINK)
+
 if (WIN32)
     #link_directories("${ROOT_SOURCE_DIR}/bin/${ROOT_PROJ_NAME}/Debug")
 

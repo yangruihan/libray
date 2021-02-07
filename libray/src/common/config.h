@@ -8,9 +8,16 @@
 
 // DLL
 #ifdef LIBRAY_WINDOWS
-    #define LIBRAY_API __declspec(dllexport)
+    #ifdef LIBRAY_DYNAMIC_LINK
+        #ifdef LIBRAY_BUILD
+            #define LIBRAY_API __declspec(dllexport)
+        #else
+            #define LIBRAY_API __declspec(dllimport)
+        #endif
+    #else
+    #endif
 #else
-    #define LIBRAY_API
+    #define LIBRAY_API extern
 #endif
 
 #endif // LIBRAY_CONFIG_H_

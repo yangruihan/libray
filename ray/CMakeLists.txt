@@ -21,6 +21,8 @@ endif (WIN32)
 
 include_directories(${ROOT_SOURCE_DIR}/libray/src)
 
+add_definitions(-DLIBRAY_DYNAMIC_LINK)
+
 add_executable(
     ${PROJ_NAME}
     ${SRC_FILES}
